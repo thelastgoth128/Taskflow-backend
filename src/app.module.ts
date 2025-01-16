@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from 'typeOrmConfig';
 import { TasksModule } from './tasks/tasks.module';
 import { TeamsModule } from './teams/teams.module';
 import { CommentsModule } from './comments/comments.module';
