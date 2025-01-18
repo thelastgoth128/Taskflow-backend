@@ -16,6 +16,7 @@ export class CreateUserDto {
     @IsStrongPassword()
     password : string
 
+    @IsOptional()
     @IsString()
     profilepicture : string
 
