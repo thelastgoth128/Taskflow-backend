@@ -30,7 +30,7 @@ import { Teammembers } from './teammembers/entities/teammember.entity';
         type:'postgres',
         url:configService.get<string>('DATABASE_URL'),
         entities:[Users,Tasks,Teams,Comments,Notifications,Teammembers,],
-        synchronize:true,
+        synchronize:false,
       }),
       inject:[ConfigService]
     })
