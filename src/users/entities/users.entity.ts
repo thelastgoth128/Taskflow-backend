@@ -1,3 +1,4 @@
+import { IsOptional } from "class-validator";
 import {  Comments } from "src/comments/entities/comment.entity";
 import { Tasks } from "src/tasks/entities/task.entity";
 import { Teammembers } from "src/teammembers/entities/teammember.entity";
@@ -22,6 +23,7 @@ export class Users {
     @Column()
     password : string
 
+    @IsOptional()
     @Column()
     profilepicture : string
 

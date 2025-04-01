@@ -31,8 +31,8 @@ export class UsersService {
     const payload = {userid: user.userid, email: user.email, name:user.name, profile: user.profilepicture}
     const jwt = await this.jwtService.signAsync(payload)
     response.cookie('jwt',jwt,{
-      httpOnly:true,
-      secure:true,
+      httpOnly:false,
+      secure:false,
       maxAge:3600000,
     })
     

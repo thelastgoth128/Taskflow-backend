@@ -1,4 +1,5 @@
 import { IsDateString, IsInt, IsNumber, IsOptional, IsString } from "class-validator";
+import { Teams } from "src/teams/entities/team.entity";
 
 
 
@@ -14,6 +15,7 @@ export class CreateTaskDto {
     @IsDateString()
     starttime : string
 
+    @IsOptional()
     @IsDateString()
     duedate : string
 
@@ -34,4 +36,7 @@ export class CreateTaskDto {
 
     @IsDateString()
     updatedat : string
+
+    @IsString()
+    team : Teams
 }

@@ -1,4 +1,4 @@
-import { IsBoolean, IsDateString, IsInt, IsString } from "class-validator";
+import { IsBoolean, IsDateString, IsInt, IsOptional, IsString } from "class-validator";
 
 export class CreateNotificationDto {
     @IsInt()
@@ -7,6 +7,7 @@ export class CreateNotificationDto {
     @IsInt()
     assingedby : number
 
+    @IsOptional()
     @IsString()
     notificationtext : string
 

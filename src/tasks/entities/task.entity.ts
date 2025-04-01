@@ -1,4 +1,5 @@
 import { Comments } from "src/comments/entities/comment.entity";
+import { Teams } from "src/teams/entities/team.entity";
 import { Users } from "src/users/entities/users.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -22,7 +23,7 @@ export class Tasks {
     starttime : Date
 
     @Column({
-        type : 'timestamp'
+        type : 'timestamp',nullable:true,
     })
     duedate: Date
 
@@ -30,7 +31,7 @@ export class Tasks {
     priority: 'Low' | 'Medium' | 'High'
     
     @Column()
-    status : 'To do' | 'In Progress' | 'Completed'
+    status : 'To do' | 'In progress' | 'Completed'
 
     
     @ManyToOne(()=>Users,user=>user.createdTasks)
@@ -56,4 +57,8 @@ export class Tasks {
     @OneToMany(()=>Comments, comment=>comment.taskid)
     @JoinColumn({name : 'taskId'})
     taskId : Comments
+
+    @ManyToOne(()=>Teams, team=>team.tasks)
+    @JoinColumn({name : 'teamid'})
+    team : Teams
 }

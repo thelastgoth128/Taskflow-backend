@@ -17,7 +17,9 @@ export class Notifications {
     @Column()
     notificationtext : string
 
-    @Column()
+    @Column({
+        default:false
+    })
     isread : boolean 
 
     @Column({

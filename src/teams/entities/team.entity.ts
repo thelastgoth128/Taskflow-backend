@@ -1,3 +1,4 @@
+import { Tasks } from "src/tasks/entities/task.entity";
 import { Teammembers } from "src/teammembers/entities/teammember.entity";
 import { Users } from "src/users/entities/users.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -28,4 +29,6 @@ export class Teams {
     @JoinColumn({name : 'team'})
     teammembers : Teammembers[]
 
+    @OneToMany(()=>Tasks,task=>task.taskid)
+    tasks : Teams
 }

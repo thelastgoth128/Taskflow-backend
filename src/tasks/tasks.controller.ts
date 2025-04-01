@@ -3,6 +3,7 @@ import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Request } from 'express';
+import { Public } from 'src/auth/public';
 
 @Controller('tasks')
 export class TasksController {
@@ -17,6 +18,13 @@ export class TasksController {
   findAll() {
     return this.tasksService.findAll();
   }
+
+  
+  @Get('user/all')
+  findUserTasks(@Req() request:Request) {
+    return this.tasksService.findUserTasks(request)
+  }
+
 
   @Get(':taskid')
   findOne(@Param('taskid') taskid: number) {

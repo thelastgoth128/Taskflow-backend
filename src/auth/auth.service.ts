@@ -23,8 +23,8 @@ export class AuthService {
         }        
         const payload ={userid: user.userid, email: user.email, name:user.name, profile: user.profilepicture}
            const jwt= await this.jwtService.signAsync(payload)
-           response.cookie('jwt',jwt, { httpOnly:true,secure:true,maxAge:3600000 })
-
+           response.cookie('jwt',jwt, { httpOnly:false,secure:false,maxAge:360000000,sameSite:'lax' })
+            console.log('Set-Cookie header:', response.getHeaders()['set-cookie'])
            return {
             message : "success"
            }

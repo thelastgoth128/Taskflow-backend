@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, Req } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Req } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { NotificationsService } from 'src/notifications/notifications.service';
@@ -24,20 +24,31 @@ export class TasksService {
     const createdby = req.user.userid
 
     const createdBy = await this.userrep.findOne({ where: { userid: createdby } });
-    const assignedTo = await this.userrep.findOne({ where: { userid:assignedto } });
+    console.log('assignedto:',assignedto)
 
     if (!createdBy) {
         throw new NotFoundException(`User with id ${createdby} not found`);
     }
 
-    if (!assignedTo) {
-        throw new NotFoundException(`User with id ${assignedto} not found`);
+    let assignedTo = null
+
+    if (assignedto) {
+      assignedTo = await this.userrep.findOne({where : {userid: assignedto}})
+      if (!assignedTo){
+      throw new NotFoundException('user not found')
+      }
     }
 
     const task = this.task.create({
         ...taskData,
         createdby: createdBy,
         assignedto: assignedTo,
+        starttime:new Date(),
+        priority:createTaskDto.priority || "Medium",
+        status:"To do",
+        duedate:createTaskDto.duedate || new Date(),
+        team : createTaskDto.team,
+
     });
        await  this.notificationService.create({
           assignedto:assignedto,
@@ -56,12 +67,31 @@ export class TasksService {
       relations:['createdby','assignedto']
     })
   }
+  async findUserTasks(@Req() req:Request) {
+    const userid =req.user?.userid
+    const user = await this.userrep.findOne({where: {userid}})
+    console.log(user)
+    if (!user){
+      throw new BadRequestException('Not authorized')
+    }
+
+    const tasks = await this.task.find({
+      where: [
+        { createdby: { userid: user.userid } },
+        { assignedto: { userid: user.userid } }
+      ],
+      relations:['assignedto','createdby','team'],
+    })
+    console.log(tasks)
+    return tasks
+  }
 
   async findOne(taskid: number) {
     return await this.task.findOne({where : { taskid },
     relations:['createdby', 'assignedto']
     })
   }
+
 async update(taskid: number, updateTaskDto : UpdateTaskDto) {
   const { createdby, assignedto, ...taskData } = updateTaskDto;
 
